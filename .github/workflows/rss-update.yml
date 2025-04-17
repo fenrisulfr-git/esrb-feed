@@ -1,8 +1,8 @@
 name: Update RSS Feed Hourly
 on:
   schedule:
-    - cron: '0 * * * *'  # runs every hour
-  workflow_dispatch:     # allows manual triggering
+    - cron: '0 * * * *'  # every hour
+  workflow_dispatch:     # allows manual run
 jobs:
   update-feed:
     runs-on: ubuntu-latest
@@ -19,9 +19,10 @@ jobs:
         run: python rss_builder.py
       - name: Commit and push updates
         run: |
-          git config --glocbal user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global http://user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@http://users.noreply.github.com"
           git add combined.xml
           git commit -m "Auto update feed" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@http://github.com/${{ github.repository }}.git main
+
 
