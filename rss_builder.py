@@ -17,7 +17,8 @@ PAGES = {
     "Advisory Scientific Committee": "https://www.esrb.europa.eu/pub/asc/html/index.en.html",
     "Series": "https://www.esrb.europa.eu/pub/series/html/index.en.html",
     "Press Releases": "https://www.esrb.europa.eu/news/pr/html/index.en.html",
-    "Schedule": "https://www.esrb.europa.eu/news/schedule/html/index.en.html"
+    "Schedule": "https://www.esrb.europa.eu/news/schedule/html/index.en.html",
+    "ESMA": "https://www.esma.europa.eu/databases-library/esma-library"
 }
 def extract_items(url):
     items = []
