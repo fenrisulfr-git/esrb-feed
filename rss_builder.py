@@ -4,7 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
-# Pages to scrape
+import html
+# Source pages
 PAGES = {
     "Research": "https://www.esrb.europa.eu/pub/rd/html/index.en.html",
     "NBFI Monitor": "https://www.esrb.europa.eu/pub/reports/nbfi_monitor/html/index.en.html",
@@ -22,28 +23,34 @@ PAGES = {
     "EC": "https://commission.europa.eu/news-and-media/news_en?page=1",
     "ECB": "https://www.ecb.europa.eu/press/pubbydate/html/index.en.html"
 }
-# Extract items from one page
+# Extract items from each page
 def extract_items(url, source_name):
     items = []
     try:
         res = requests.get(url, verify=False, timeout=10)
         soup = BeautifulSoup(res.text, 'html.parser')
-        for link in soup.select("div.box_list a"):
+        links = soup.select("div.box_list a")
+        if not links:
+            links = soup.find_all("a")
+        for link in links:
             title = link.get_text(strip=True)
             href = link.get("href")
             if not title or not href:
                 continue
             full_link = requests.compat.urljoin(url, href)
-            items.append((f"{source_name}: {title}", full_link))
+            clean_title = html.escape(f"{source_name}: {title}")
+            clean_link = html.escape(full_link)
+            items.append((clean_title, clean_link))
     except Exception as e:
         print(f"Failed to fetch {source_name}: {e}")
     return items
-# Aggregate and format all items
+# Aggregate
 rss_items = []
 for name, url in PAGES.items():
     rss_items += extract_items(url, name)
-rss_items = rss_items[:50]  # Limit to 50 items
-# Build RSS XML
+# Limit to latest 50
+rss_items = rss_items[:50]
+# Build RSS
 rss = ET.Element("rss", version="2.0")
 channel = ET.SubElement(rss, "channel")
 ET.SubElement(channel, "title").text = "ESRB Combined Feed"
