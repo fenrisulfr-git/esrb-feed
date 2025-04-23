@@ -18,7 +18,8 @@ PAGES = {
     "Series": "https://www.esrb.europa.eu/pub/series/html/index.en.html",
     "Press Releases": "https://www.esrb.europa.eu/news/pr/html/index.en.html",
     "Schedule": "https://www.esrb.europa.eu/news/schedule/html/index.en.html",
-    "ESMA": "https://www.esma.europa.eu/databases-library/esma-library"
+    "EC": "https://commission.europa.eu/news-and-media/news_en?page=1",
+    "ECB": "https://www.ecb.europa.eu/press/pubbydate/html/index.en.html?"
 }
 def extract_items(url):
     items = []
